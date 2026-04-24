@@ -158,6 +158,16 @@
       outline: none;
       transition: border-color .2s, box-shadow .2s;
     }
+    .nl-search-label {
+      position: absolute;
+      width: 1px; height: 1px;
+      padding: 0; margin: -1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      white-space: nowrap;
+      border: 0;
+    }
+
     #nl-search-input::placeholder { color: #9ab0b3; font-weight: 500; }
     #nl-search-input:focus {
       border-color: var(--epep-primary);
@@ -844,6 +854,7 @@ window.NL_ITEMS = [
     <div class="nl-search">
       <h2>Recherche rapide</h2>
       <p>Recherchez un mot-clé comme <strong>Cabanga</strong>, <strong>PIA</strong>, <strong>conseil des élèves</strong>, <strong>formation</strong>…</p>
+      <label for="nl-search-input" class="nl-search-label">Rechercher une information</label>
       <input type="text" id="nl-search-input" placeholder="Rechercher une information…" autocomplete="off" />
     </div>
   </div>
@@ -904,9 +915,6 @@ window.NL_ITEMS = [
 <!-- ===== WIDGET 01 : LOGIQUE JS ===== -->
 <script>
 (function(){
-  if (window.__NL_DESIGN_INIT__) return;
-  window.__NL_DESIGN_INIT__ = true;
-
   const $ = id => document.getElementById(id);
 
   const RMAP = {
@@ -932,7 +940,7 @@ window.NL_ITEMS = [
       groups[cat].forEach(item => {
         if (lastNum && item.num !== lastNum) html += '<hr class="nl-divider">';
         const searchData = (item.title + ' ' + (item.body||'').replace(/<[^>]*>/g,' ')).toLowerCase();
-        html += `<article class="nl-entry" data-id="${item.id}" data-search="${searchData.replace(/"/g,'&quot;')}">
+        html += `<article class="nl-entry" role="button" tabindex="0" data-id="${item.id}" data-search="${searchData.replace(/"/g,'&quot;')}">
           <div class="nl-entry-top">
             <div class="nl-entry-title">${item.title}</div>
             <div class="nl-entry-arrow">→</div>
@@ -949,25 +957,45 @@ window.NL_ITEMS = [
     });
 
     document.querySelectorAll('.nl-entry').forEach(el => {
-      el.addEventListener('click', () => {
+      const openEntry = () => {
         const item = (window.NL_ITEMS || []).find(i => i.id === el.dataset.id);
         if (item) openPopup(item);
-      });
+      };
+      el.addEventListener('click', openEntry);
+      el.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openEntry(); } });
     });
   }
 
   $('nl-search-input').addEventListener('input', function(){
     const q = this.value.toLowerCase().trim();
     let total = 0;
+    const colCounts = { institutional: 0, projects: 0, pedagogie: 0 };
+
     document.querySelectorAll('.nl-entry').forEach(e => {
       const match = !q || e.dataset.search.includes(q);
       e.style.display = match ? '' : 'none';
-      if (match) total++;
+      if (match) { total++; }
     });
-    document.querySelectorAll('.nl-divider').forEach(d => {
-      const next = d.nextElementSibling;
-      d.style.display = (next && next.style.display !== 'none') ? '' : 'none';
+
+    ['institutional','projects','pedagogie'].forEach(cat => {
+      const col = $('nl-col-' + cat);
+      col.querySelectorAll('.nl-entry').forEach(e => {
+        if (e.style.display !== 'none') colCounts[cat]++;
+      });
+      const countEl = document.querySelector('.nl-count--' + cat);
+      if (countEl) countEl.textContent = colCounts[cat];
+
+      col.querySelectorAll('.nl-divider').forEach(d => {
+        let hasBefore = false;
+        let hasAfter = false;
+        let el = d.previousElementSibling;
+        while (el) { if (el.classList.contains('nl-entry') && el.style.display !== 'none') { hasBefore = true; break; } el = el.previousElementSibling; }
+        el = d.nextElementSibling;
+        while (el) { if (el.classList.contains('nl-entry') && el.style.display !== 'none') { hasAfter = true; break; } el = el.nextElementSibling; }
+        d.style.display = (hasBefore && hasAfter) ? '' : 'none';
+      });
     });
+
     $('nl-no-results').style.display = total === 0 ? 'block' : 'none';
   });
 
@@ -997,12 +1025,8 @@ window.NL_ITEMS = [
   }
 
   function init(){
-    if (window.NL_ITEMS && window.NL_ITEMS.length) {
-      render(window.NL_ITEMS);
-      setupHighlight();
-    } else {
-      setTimeout(init, 80);
-    }
+    render(window.NL_ITEMS);
+    setupHighlight();
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);

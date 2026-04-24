@@ -1,0 +1,607 @@
+<style>
+/* ===== NEWSLETTER CENTRE D'INFOS — WIDGET 01 : DESIGN ===== */
+/* Dépend du widget-00-global.html (variables EPEP, fonts Montserrat) */
+
+:root {
+  --nl-teal:   #3a8c8c;
+  --nl-violet: #7c5cbf;
+  --nl-or:     #c9a84c;
+  --nl-rouge:  #c0544a;
+  --nl-radius: 28px;
+  --nl-gap:    clamp(16px, 2vw, 24px);
+}
+
+/* Shell */
+.nl-shell {
+  width: min(1240px, calc(100vw - 24px));
+  margin: 0 auto;
+  padding: clamp(32px, 5vw, 64px) 0 clamp(48px, 8vw, 96px);
+  font-family: 'Montserrat', sans-serif;
+  color: var(--epep-text, #102226);
+}
+
+/* ── TOPBAR ── */
+.nl-topbar {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: var(--nl-gap);
+  margin-bottom: var(--nl-gap);
+}
+@media (max-width: 860px) { .nl-topbar { grid-template-columns: 1fr; } }
+
+.nl-hero {
+  position: relative;
+  background: #fff;
+  border: 1px solid var(--epep-border, rgba(16,34,38,.08));
+  border-radius: var(--nl-radius);
+  box-shadow: var(--epep-shadow-soft, 0 8px 24px rgba(16,34,38,.06));
+  padding: clamp(24px, 3vw, 36px);
+  overflow: hidden;
+}
+.nl-hero::before {
+  content: '';
+  position: absolute;
+  right: -60px; top: -60px;
+  width: 200px; height: 200px;
+  background: radial-gradient(circle, rgba(0,146,142,.12), transparent 65%);
+  pointer-events: none;
+}
+
+.nl-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--epep-primary-soft, #e8f6f5);
+  color: var(--epep-primary-dark, #00716d);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  padding: 7px 14px;
+  border-radius: 999px;
+  margin-bottom: 14px;
+}
+
+.nl-hero h1 {
+  margin: 0 0 10px;
+  font-size: clamp(24px, 4vw, 38px);
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: -.03em;
+  color: var(--epep-text, #102226);
+}
+.nl-hero h1 span { color: var(--epep-primary, #00928e); }
+
+.nl-hero p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--epep-text-soft, #4f676c);
+  max-width: 600px;
+}
+
+.nl-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+.nl-chip {
+  background: var(--epep-surface-soft, #f4f8f8);
+  border: 1px solid var(--epep-border, rgba(16,34,38,.08));
+  color: var(--epep-text-soft, #4f676c);
+  padding: 7px 13px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* ── SEARCH ── */
+.nl-search {
+  background: #fff;
+  border: 1px solid var(--epep-border, rgba(16,34,38,.08));
+  border-radius: var(--nl-radius);
+  box-shadow: var(--epep-shadow-soft, 0 8px 24px rgba(16,34,38,.06));
+  padding: clamp(20px, 2.5vw, 32px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+}
+.nl-search h2 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--epep-text, #102226);
+}
+.nl-search p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--epep-text-soft, #4f676c);
+}
+
+#nl-search-input {
+  width: 100%;
+  padding: 13px 16px;
+  border: 2px solid var(--epep-border, rgba(16,34,38,.08));
+  border-radius: 14px;
+  background: var(--epep-surface-soft, #f4f8f8);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--epep-text, #102226);
+  outline: none;
+  transition: border-color .2s, box-shadow .2s;
+}
+#nl-search-input::placeholder { color: #9ab0b3; font-weight: 500; }
+#nl-search-input:focus {
+  border-color: var(--epep-primary, #00928e);
+  box-shadow: 0 0 0 4px rgba(0,146,142,.1);
+  background: #fff;
+}
+
+/* ── HIGHLIGHT ── */
+.nl-highlight {
+  background: linear-gradient(135deg, rgba(0,146,142,.07), rgba(0,146,142,.03));
+  border: 1px solid rgba(0,146,142,.15);
+  border-radius: var(--nl-radius);
+  padding: clamp(18px, 2.5vw, 28px);
+  margin-bottom: var(--nl-gap);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.nl-highlight .label {
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--epep-primary, #00928e);
+  margin-bottom: 6px;
+}
+.nl-highlight h3 {
+  margin: 0 0 5px;
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--epep-text, #102226);
+  line-height: 1.35;
+}
+.nl-highlight p {
+  margin: 0;
+  font-size: 13px;
+  color: var(--epep-text-soft, #4f676c);
+  line-height: 1.6;
+}
+
+.nl-highlight-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 22px;
+  border-radius: 999px;
+  background: var(--epep-primary, #00928e);
+  color: #fff;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+  text-decoration: none;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: background .15s, transform .15s;
+}
+.nl-highlight-btn:hover {
+  background: var(--epep-primary-dark, #00716d);
+  transform: translateY(-1px);
+}
+
+/* ── COLONNES ── */
+.nl-columns {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--nl-gap);
+  align-items: start;
+}
+@media (max-width: 900px) { .nl-columns { grid-template-columns: 1fr; } }
+
+.nl-column {
+  background: #fff;
+  border: 1px solid var(--epep-border, rgba(16,34,38,.08));
+  border-radius: var(--nl-radius);
+  box-shadow: var(--epep-shadow-soft, 0 8px 24px rgba(16,34,38,.06));
+  overflow: hidden;
+}
+
+.nl-col-header {
+  padding: 18px 22px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.nl-col-header strong {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+}
+.nl-col-header .nl-count {
+  background: rgba(255,255,255,.18);
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.nl-col--institutional .nl-col-header { background: linear-gradient(135deg, var(--nl-teal), #2d7070); }
+.nl-col--projects      .nl-col-header { background: linear-gradient(135deg, var(--nl-violet), #6340a8); }
+.nl-col--pedagogie     .nl-col-header { background: linear-gradient(135deg, var(--nl-or), #b08530); }
+
+.nl-col-body { padding: 12px; }
+
+/* ── ENTRÉES ── */
+.nl-entry {
+  padding: 12px 14px;
+  border-radius: 16px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  margin-bottom: 6px;
+  background: var(--epep-surface-soft, #f4f8f8);
+  transition: transform .18s, box-shadow .18s, background .18s, border-color .18s;
+}
+.nl-entry:last-child { margin-bottom: 0; }
+.nl-entry:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(16,34,38,.07); }
+
+.nl-col--institutional .nl-entry:hover { background: #eef8f8; border-color: rgba(58,140,140,.2); }
+.nl-col--projects      .nl-entry:hover { background: #f4f1fc; border-color: rgba(124,92,191,.2); }
+.nl-col--pedagogie     .nl-entry:hover { background: #fdf8ea; border-color: rgba(201,168,76,.22); }
+
+.nl-entry-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+.nl-entry-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--epep-text, #102226);
+  line-height: 1.45;
+  flex: 1;
+}
+.nl-entry-arrow { color: #c4bdb4; font-size: 13px; flex-shrink: 0; margin-top: 1px; }
+
+.nl-entry-meta {
+  font-size: 11px;
+  color: #9ab0b3;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+.nl-entry-meta .nl-num {
+  background: #edf3f3;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-weight: 800;
+  color: #7a9ea0;
+  font-size: 10px;
+}
+
+.nl-divider { border: none; border-top: 1px solid var(--epep-border, rgba(16,34,38,.08)); margin: 8px 0; }
+
+.nl-no-results {
+  display: none;
+  margin-top: 20px;
+  text-align: center;
+  color: var(--epep-text-soft, #4f676c);
+  padding: 20px;
+  background: #fff;
+  border-radius: 16px;
+  border: 1px dashed var(--epep-border, rgba(16,34,38,.08));
+  font-size: 14px;
+}
+
+/* ── POPUP ── */
+#nl-popup-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10,20,22,.52);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 9000;
+  padding: 20px;
+  backdrop-filter: blur(6px);
+}
+#nl-popup-overlay.open { display: flex; }
+
+#nl-popup-box {
+  background: #fff;
+  border-radius: var(--nl-radius);
+  max-width: 700px;
+  width: 100%;
+  max-height: 88vh;
+  overflow: hidden;
+  box-shadow: 0 24px 60px rgba(10,20,22,.18);
+  display: flex;
+  flex-direction: column;
+  animation: nlPopIn .2s ease;
+}
+@keyframes nlPopIn {
+  from { transform: translateY(8px) scale(.98); opacity: 0; }
+  to   { transform: none; opacity: 1; }
+}
+
+#nl-popup-header {
+  padding: 24px 28px 18px;
+  border-bottom: 1px solid var(--epep-border, rgba(16,34,38,.08));
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  flex-shrink: 0;
+}
+.nl-popup-rubrique {
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  margin-bottom: 6px;
+}
+#nl-popup-title {
+  margin: 0;
+  font-size: clamp(17px, 2.5vw, 22px);
+  font-weight: 900;
+  color: var(--epep-text, #102226);
+  line-height: 1.28;
+  letter-spacing: -.02em;
+}
+#nl-popup-close {
+  background: var(--epep-surface-soft, #f4f8f8);
+  border: none;
+  border-radius: 50%;
+  width: 38px; height: 38px;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background .15s;
+  color: var(--epep-text, #102226);
+}
+#nl-popup-close:hover { background: #e8f6f5; }
+
+#nl-popup-body {
+  padding: 22px 28px 28px;
+  font-size: 14px;
+  line-height: 1.75;
+  color: var(--epep-text, #102226);
+  overflow-y: auto;
+  flex: 1;
+}
+#nl-popup-body h3 { font-size: 14px; font-weight: 800; margin: 18px 0 8px; color: var(--epep-primary-dark, #00716d); }
+#nl-popup-body h3:first-child { margin-top: 0; }
+#nl-popup-body ul { padding-left: 20px; margin: 8px 0 12px; }
+#nl-popup-body li { margin-bottom: 5px; }
+#nl-popup-body p + p { margin-top: 8px; }
+#nl-popup-body em { color: var(--epep-text-soft, #4f676c); font-style: italic; }
+#nl-popup-body strong { color: var(--epep-text, #102226); font-weight: 800; }
+
+.nl-newsletter-badge {
+  display: inline-block;
+  background: var(--epep-surface-soft, #f4f8f8);
+  border: 1px solid var(--epep-border, rgba(16,34,38,.08));
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #9ab0b3;
+  margin-bottom: 16px;
+}
+
+@media (max-width: 700px) {
+  #nl-popup-header, #nl-popup-body { padding-left: 18px; padding-right: 18px; }
+}
+</style>
+
+<!-- ===== STRUCTURE HTML ===== -->
+<div class="nl-shell">
+
+  <div class="nl-topbar">
+    <div class="nl-hero epep-reveal">
+      <div class="nl-badge">📰 École Professionnelle Edmond Peeters</div>
+      <h1>Newsletters<span> Epep</span></h1>
+      <p>Retrouvez toutes les informations des newsletters internes, classées par rubrique et par sujet. Cliquez sur une entrée pour afficher son contenu complet.</p>
+      <div class="nl-chips">
+        <span class="nl-chip">📅 Mise à jour hebdomadaire</span>
+        <span class="nl-chip">⚡ Accès rapide par sujet</span>
+        <span class="nl-chip">📖 Lecture simplifiée</span>
+      </div>
+    </div>
+
+    <div class="nl-search epep-reveal" data-reveal="right">
+      <h2>Recherche rapide</h2>
+      <p>Recherchez un mot-clé comme <strong>Cabanga</strong>, <strong>PIA</strong>, <strong>conseil des élèves</strong>, <strong>formation</strong>…</p>
+      <input type="text" id="nl-search-input" placeholder="Rechercher une information…" autocomplete="off" />
+    </div>
+  </div>
+
+  <!-- Highlight : injecté par le widget 02 via window.NL_HIGHLIGHT -->
+  <div class="nl-highlight epep-reveal" id="nl-highlight" style="display:none">
+    <div>
+      <div class="label" id="nl-hl-label">🔔 La plus récente</div>
+      <h3 id="nl-hl-title"></h3>
+      <p id="nl-hl-desc"></p>
+    </div>
+    <a class="nl-highlight-btn" id="nl-hl-btn" href="#" target="_blank" rel="noopener noreferrer">Voir la dernière newsletter →</a>
+  </div>
+
+  <div class="nl-columns">
+    <div class="nl-column nl-col--institutional epep-reveal">
+      <div class="nl-col-header">
+        <strong><span>ℹ️</span> Infos institutionnelles</strong>
+        <span class="nl-count nl-count--institutional">–</span>
+      </div>
+      <div class="nl-col-body" id="nl-col-institutional"></div>
+    </div>
+
+    <div class="nl-column nl-col--projects epep-reveal" data-reveal="zoom">
+      <div class="nl-col-header">
+        <strong><span>🛠️</span> Projets en cours</strong>
+        <span class="nl-count nl-count--projects">–</span>
+      </div>
+      <div class="nl-col-body" id="nl-col-projects"></div>
+    </div>
+
+    <div class="nl-column nl-col--pedagogie epep-reveal" data-reveal="right">
+      <div class="nl-col-header">
+        <strong><span>📚</span> Pratiques pédagogiques</strong>
+        <span class="nl-count nl-count--pedagogie">–</span>
+      </div>
+      <div class="nl-col-body" id="nl-col-pedagogie"></div>
+    </div>
+  </div>
+
+  <div class="nl-no-results" id="nl-no-results">Aucune entrée ne correspond à votre recherche.</div>
+
+</div>
+
+<!-- ── POPUP ── -->
+<div id="nl-popup-overlay">
+  <div id="nl-popup-box">
+    <div id="nl-popup-header">
+      <div>
+        <div class="nl-popup-rubrique" id="nl-popup-rubrique"></div>
+        <h2 id="nl-popup-title"></h2>
+      </div>
+      <button id="nl-popup-close" aria-label="Fermer">✕</button>
+    </div>
+    <div id="nl-popup-body"></div>
+  </div>
+</div>
+
+<script>
+(function(){
+  if (window.__NL_DESIGN_INIT__) return;
+  window.__NL_DESIGN_INIT__ = true;
+
+  /* ── helpers ── */
+  const $ = id => document.getElementById(id);
+  const b = (n, d, t) => `<span class="nl-newsletter-badge">Newsletter N°${n} – ${d}</span>${t}`;
+  window._NL_BADGE = b;
+
+  const RMAP = {
+    institutional: 'ℹ️ Infos institutionnelles',
+    projects:      '🛠️ Projets en cours',
+    pedagogie:     '📚 Pratiques pédagogiques'
+  };
+  const CMAP = {
+    institutional: 'var(--nl-teal)',
+    projects:      'var(--nl-violet)',
+    pedagogie:     'var(--nl-or)'
+  };
+
+  /* ── render ── */
+  function render(items){
+    const groups = { institutional:[], projects:[], pedagogie:[] };
+    items.forEach(item => groups[item.cat].push(item));
+
+    ['institutional','projects','pedagogie'].forEach(cat => {
+      const col = $('nl-col-' + cat);
+      const countEl = document.querySelector('.nl-count--' + cat);
+      let html = '';
+      let lastNum = null;
+      groups[cat].forEach(item => {
+        if (lastNum && item.num !== lastNum) html += '<hr class="nl-divider">';
+        const searchData = (item.title + ' ' + (item.body||'').replace(/<[^>]*>/g,' ')).toLowerCase();
+        html += `<article class="nl-entry" data-id="${item.id}" data-search="${searchData.replace(/"/g,'&quot;')}">
+          <div class="nl-entry-top">
+            <div class="nl-entry-title">${item.title}</div>
+            <div class="nl-entry-arrow">→</div>
+          </div>
+          <div class="nl-entry-meta">
+            <span class="nl-num">N°${item.num}</span>
+            <span>${item.date}</span>
+          </div>
+        </article>`;
+        lastNum = item.num;
+      });
+      col.innerHTML = html || '<p style="padding:12px;font-size:13px;color:#9ab0b3">Aucune entrée.</p>';
+      if (countEl) countEl.textContent = groups[cat].length;
+    });
+
+    document.querySelectorAll('.nl-entry').forEach(el => {
+      el.addEventListener('click', () => {
+        const item = (window.NL_ITEMS || []).find(i => i.id === el.dataset.id);
+        if (item) openPopup(item);
+      });
+    });
+  }
+
+  /* ── search ── */
+  $('nl-search-input').addEventListener('input', function(){
+    const q = this.value.toLowerCase().trim();
+    let total = 0;
+    document.querySelectorAll('.nl-entry').forEach(e => {
+      const match = !q || e.dataset.search.includes(q);
+      e.style.display = match ? '' : 'none';
+      if (match) total++;
+    });
+    document.querySelectorAll('.nl-divider').forEach(d => {
+      const next = d.nextElementSibling;
+      d.style.display = (next && next.style.display !== 'none') ? '' : 'none';
+    });
+    $('nl-no-results').style.display = total === 0 ? 'block' : 'none';
+  });
+
+  /* ── popup ── */
+  function openPopup(item){
+    $('nl-popup-rubrique').textContent = RMAP[item.cat];
+    $('nl-popup-rubrique').style.color = CMAP[item.cat];
+    $('nl-popup-title').textContent = item.title;
+    $('nl-popup-body').innerHTML = item.body || '';
+    $('nl-popup-overlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closePopup(){
+    $('nl-popup-overlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  $('nl-popup-close').addEventListener('click', closePopup);
+  $('nl-popup-overlay').addEventListener('click', e => { if (e.target.id === 'nl-popup-overlay') closePopup(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closePopup(); });
+
+  /* ── highlight ── */
+  function setupHighlight(){
+    const hl = window.NL_HIGHLIGHT;
+    if (!hl) return;
+    $('nl-hl-title').textContent = hl.title || '';
+    $('nl-hl-desc').textContent  = hl.desc  || '';
+    $('nl-hl-btn').href = hl.url || '#';
+    $('nl-highlight').style.display = 'flex';
+  }
+
+  /* ── init (attend les données du widget 02) ── */
+  function init(){
+    if (window.NL_ITEMS && window.NL_ITEMS.length) {
+      render(window.NL_ITEMS);
+      setupHighlight();
+    } else {
+      // réessaie toutes les 80ms jusqu'à ce que les données soient là
+      setTimeout(init, 80);
+    }
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();
+</script>

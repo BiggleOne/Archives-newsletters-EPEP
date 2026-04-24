@@ -1,4 +1,3 @@
-<script src="data.js"></script>
 <style>
 /* ===== NEWSLETTER CENTRE D'INFOS — WIDGET 01 : DESIGN ===== */
 /* Dépend du widget-00-global.html (variables EPEP, fonts Montserrat) */
@@ -618,17 +617,24 @@
     $('nl-highlight').style.display = 'flex';
   }
 
-  /* ── init (attend les données du widget 02 via CustomEvent ou données déjà présentes) ── */
+  /* ── init ── */
   function init(){
     render(window.NL_ITEMS);
     setupHighlight();
   }
 
-  if (window.NL_ITEMS && window.NL_ITEMS.length) {
-    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
-    else init();
-  } else {
-    document.addEventListener('nl:items-ready', init, { once: true });
+  /* Accepte les deux modes : widget 02 qui pose NL_ITEMS directement (polling)
+     ou un script externe qui dispatch 'nl:items-ready' */
+  let _initDone = false;
+  function tryInit(){
+    if (_initDone || !(window.NL_ITEMS && window.NL_ITEMS.length)) return;
+    _initDone = true;
+    clearInterval(_poll);
+    init();
   }
+  document.addEventListener('nl:items-ready', tryInit, { once: true });
+  const _poll = setInterval(tryInit, 80);
+  setTimeout(() => clearInterval(_poll), 15000);
+  if (document.readyState !== 'loading') tryInit();
 })();
 </script>

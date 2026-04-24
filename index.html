@@ -7,7 +7,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-  
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -17,27 +16,29 @@
     <div class="nl-hero">
       <div class="nl-badge">📰 École Professionnelle Edmond Peeters</div>
       <h1>Newsletters<span> Epep</span></h1>
-      <p>Retrouvez toutes les informations des newsletters internes, classées par rubrique et par sujet.</p>
+      <p>Retrouvez toutes les informations des newsletters internes, classées par rubrique et par sujet. Cliquez sur une entrée pour afficher son contenu complet.</p>
       <div class="nl-chips">
         <span class="nl-chip">📅 Mise à jour hebdomadaire</span>
         <span class="nl-chip">⚡ Accès rapide par sujet</span>
+        <span class="nl-chip">📖 Lecture simplifiée</span>
       </div>
     </div>
 
     <div class="nl-search">
       <h2>Recherche rapide</h2>
-      <p>Recherchez un mot-clé (Cabanga, PIA, formation…)</p>
+      <p>Recherchez un mot-clé comme <strong>Cabanga</strong>, <strong>PIA</strong>, <strong>conseil des élèves</strong>, <strong>formation</strong>…</p>
+      <label for="nl-search-input" class="nl-search-label">Rechercher une information</label>
       <input type="text" id="nl-search-input" placeholder="Rechercher une information…" autocomplete="off" />
     </div>
   </div>
 
   <div class="nl-highlight" id="nl-highlight" style="display:none">
     <div>
-      <div class="label">🔔 La plus récente</div>
+      <div class="label" id="nl-hl-label">🔔 La plus récente</div>
       <h3 id="nl-hl-title"></h3>
       <p id="nl-hl-desc"></p>
     </div>
-    <a class="nl-highlight-btn" id="nl-hl-btn" href="#" target="_blank">Voir la dernière newsletter →</a>
+    <a class="nl-highlight-btn" id="nl-hl-btn" href="#" target="_blank" rel="noopener noreferrer">Voir la dernière newsletter →</a>
   </div>
 
   <div class="nl-columns">
@@ -74,7 +75,7 @@
         <div class="nl-popup-rubrique" id="nl-popup-rubrique"></div>
         <h2 id="nl-popup-title"></h2>
       </div>
-      <button id="nl-popup-close">✕</button>
+      <button id="nl-popup-close" aria-label="Fermer">✕</button>
     </div>
     <div id="nl-popup-body"></div>
   </div>

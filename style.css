@@ -1,0 +1,426 @@
+/* ── VARIABLES GLOBALES EPEP ── */
+:root {
+  --epep-primary:        #00928e;
+  --epep-primary-dark:   #00716d;
+  --epep-primary-soft:   #e8f6f5;
+  --epep-text:           #102226;
+  --epep-text-soft:      #4f676c;
+  --epep-border:         rgba(16,34,38,.08);
+  --epep-surface-soft:   #f4f8f8;
+  --epep-shadow-soft:    0 8px 24px rgba(16,34,38,.06);
+
+  --nl-teal:   #3a8c8c;
+  --nl-violet: #7c5cbf;
+  --nl-or:     #c9a84c;
+  --nl-rouge:  #c0544a;
+  --nl-radius: 28px;
+  --nl-gap:    clamp(16px, 2vw, 24px);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--epep-surface-soft);
+  font-family: 'Montserrat', sans-serif;
+  color: var(--epep-text);
+}
+
+/* ── SHELL ── */
+.nl-shell {
+  width: min(1240px, calc(100vw - 24px));
+  margin: 0 auto;
+  padding: clamp(32px, 5vw, 64px) 0 clamp(48px, 8vw, 96px);
+}
+
+/* ── TOPBAR ── */
+.nl-topbar {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: var(--nl-gap);
+  margin-bottom: var(--nl-gap);
+}
+@media (max-width: 860px) { .nl-topbar { grid-template-columns: 1fr; } }
+
+.nl-hero {
+  position: relative;
+  background: #fff;
+  border: 1px solid var(--epep-border);
+  border-radius: var(--nl-radius);
+  box-shadow: var(--epep-shadow-soft);
+  padding: clamp(24px, 3vw, 36px);
+  overflow: hidden;
+}
+.nl-hero::before {
+  content: '';
+  position: absolute;
+  right: -60px; top: -60px;
+  width: 200px; height: 200px;
+  background: radial-gradient(circle, rgba(0,146,142,.12), transparent 65%);
+  pointer-events: none;
+}
+
+.nl-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--epep-primary-soft);
+  color: var(--epep-primary-dark);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  padding: 7px 14px;
+  border-radius: 999px;
+  margin-bottom: 14px;
+}
+
+.nl-hero h1 {
+  margin: 0 0 10px;
+  font-size: clamp(24px, 4vw, 38px);
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: -.03em;
+  color: var(--epep-text);
+}
+.nl-hero h1 span { color: var(--epep-primary); }
+
+.nl-hero p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--epep-text-soft);
+  max-width: 600px;
+}
+
+.nl-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+.nl-chip {
+  background: var(--epep-surface-soft);
+  border: 1px solid var(--epep-border);
+  color: var(--epep-text-soft);
+  padding: 7px 13px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* ── SEARCH ── */
+.nl-search {
+  background: #fff;
+  border: 1px solid var(--epep-border);
+  border-radius: var(--nl-radius);
+  box-shadow: var(--epep-shadow-soft);
+  padding: clamp(20px, 2.5vw, 32px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+}
+.nl-search h2 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--epep-text);
+}
+.nl-search p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--epep-text-soft);
+}
+
+#nl-search-input {
+  width: 100%;
+  padding: 13px 16px;
+  border: 2px solid var(--epep-border);
+  border-radius: 14px;
+  background: var(--epep-surface-soft);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--epep-text);
+  outline: none;
+  transition: border-color .2s, box-shadow .2s;
+}
+#nl-search-input::placeholder { color: #9ab0b3; font-weight: 500; }
+#nl-search-input:focus {
+  border-color: var(--epep-primary);
+  box-shadow: 0 0 0 4px rgba(0,146,142,.1);
+  background: #fff;
+}
+
+/* ── HIGHLIGHT ── */
+.nl-highlight {
+  background: linear-gradient(135deg, rgba(0,146,142,.07), rgba(0,146,142,.03));
+  border: 1px solid rgba(0,146,142,.15);
+  border-radius: var(--nl-radius);
+  padding: clamp(18px, 2.5vw, 28px);
+  margin-bottom: var(--nl-gap);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.nl-highlight .label {
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--epep-primary);
+  margin-bottom: 6px;
+}
+.nl-highlight h3 {
+  margin: 0 0 5px;
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--epep-text);
+  line-height: 1.35;
+}
+.nl-highlight p {
+  margin: 0;
+  font-size: 13px;
+  color: var(--epep-text-soft);
+  line-height: 1.6;
+}
+
+.nl-highlight-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 22px;
+  border-radius: 999px;
+  background: var(--epep-primary);
+  color: #fff;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+  text-decoration: none;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: background .15s, transform .15s;
+}
+.nl-highlight-btn:hover {
+  background: var(--epep-primary-dark);
+  transform: translateY(-1px);
+}
+
+/* ── COLONNES ── */
+.nl-columns {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--nl-gap);
+  align-items: start;
+}
+@media (max-width: 900px) { .nl-columns { grid-template-columns: 1fr; } }
+
+.nl-column {
+  background: #fff;
+  border: 1px solid var(--epep-border);
+  border-radius: var(--nl-radius);
+  box-shadow: var(--epep-shadow-soft);
+  overflow: hidden;
+}
+
+.nl-col-header {
+  padding: 18px 22px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.nl-col-header strong {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+}
+.nl-col-header .nl-count {
+  background: rgba(255,255,255,.18);
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.nl-col--institutional .nl-col-header { background: linear-gradient(135deg, var(--nl-teal), #2d7070); }
+.nl-col--projects      .nl-col-header { background: linear-gradient(135deg, var(--nl-violet), #6340a8); }
+.nl-col--pedagogie     .nl-col-header { background: linear-gradient(135deg, var(--nl-or), #b08530); }
+
+.nl-col-body { padding: 12px; }
+
+/* ── ENTRÉES ── */
+.nl-entry {
+  padding: 12px 14px;
+  border-radius: 16px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  margin-bottom: 6px;
+  background: var(--epep-surface-soft);
+  transition: transform .18s, box-shadow .18s, background .18s, border-color .18s;
+}
+.nl-entry:last-child { margin-bottom: 0; }
+.nl-entry:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(16,34,38,.07); }
+
+.nl-col--institutional .nl-entry:hover { background: #eef8f8; border-color: rgba(58,140,140,.2); }
+.nl-col--projects      .nl-entry:hover { background: #f4f1fc; border-color: rgba(124,92,191,.2); }
+.nl-col--pedagogie     .nl-entry:hover { background: #fdf8ea; border-color: rgba(201,168,76,.22); }
+
+.nl-entry-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+.nl-entry-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--epep-text);
+  line-height: 1.45;
+  flex: 1;
+}
+.nl-entry-arrow { color: #c4bdb4; font-size: 13px; flex-shrink: 0; margin-top: 1px; }
+
+.nl-entry-meta {
+  font-size: 11px;
+  color: #9ab0b3;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+.nl-entry-meta .nl-num {
+  background: #edf3f3;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-weight: 800;
+  color: #7a9ea0;
+  font-size: 10px;
+}
+
+.nl-divider { border: none; border-top: 1px solid var(--epep-border); margin: 8px 0; }
+
+.nl-no-results {
+  display: none;
+  margin-top: 20px;
+  text-align: center;
+  color: var(--epep-text-soft);
+  padding: 20px;
+  background: #fff;
+  border-radius: 16px;
+  border: 1px dashed var(--epep-border);
+  font-size: 14px;
+}
+
+/* ── POPUP ── */
+#nl-popup-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10,20,22,.52);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 9000;
+  padding: 20px;
+  backdrop-filter: blur(6px);
+}
+#nl-popup-overlay.open { display: flex; }
+
+#nl-popup-box {
+  background: #fff;
+  border-radius: var(--nl-radius);
+  max-width: 700px;
+  width: 100%;
+  max-height: 88vh;
+  overflow: hidden;
+  box-shadow: 0 24px 60px rgba(10,20,22,.18);
+  display: flex;
+  flex-direction: column;
+  animation: nlPopIn .2s ease;
+}
+@keyframes nlPopIn {
+  from { transform: translateY(8px) scale(.98); opacity: 0; }
+  to   { transform: none; opacity: 1; }
+}
+
+#nl-popup-header {
+  padding: 24px 28px 18px;
+  border-bottom: 1px solid var(--epep-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  flex-shrink: 0;
+}
+.nl-popup-rubrique {
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  margin-bottom: 6px;
+}
+#nl-popup-title {
+  margin: 0;
+  font-size: clamp(17px, 2.5vw, 22px);
+  font-weight: 900;
+  color: var(--epep-text);
+  line-height: 1.28;
+  letter-spacing: -.02em;
+}
+#nl-popup-close {
+  background: var(--epep-surface-soft);
+  border: none;
+  border-radius: 50%;
+  width: 38px; height: 38px;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background .15s;
+  color: var(--epep-text);
+}
+#nl-popup-close:hover { background: #e8f6f5; }
+
+#nl-popup-body {
+  padding: 22px 28px 28px;
+  font-size: 14px;
+  line-height: 1.75;
+  color: var(--epep-text);
+  overflow-y: auto;
+  flex: 1;
+}
+#nl-popup-body h3 { font-size: 14px; font-weight: 800; margin: 18px 0 8px; color: var(--epep-primary-dark); }
+#nl-popup-body h3:first-child { margin-top: 0; }
+#nl-popup-body ul { padding-left: 20px; margin: 8px 0 12px; }
+#nl-popup-body li { margin-bottom: 5px; }
+#nl-popup-body p + p { margin-top: 8px; }
+#nl-popup-body em { color: var(--epep-text-soft); font-style: italic; }
+#nl-popup-body strong { color: var(--epep-text); font-weight: 800; }
+
+.nl-newsletter-badge {
+  display: inline-block;
+  background: var(--epep-surface-soft);
+  border: 1px solid var(--epep-border);
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #9ab0b3;
+  margin-bottom: 16px;
+}
+
+@media (max-width: 700px) {
+  #nl-popup-header, #nl-popup-body { padding-left: 18px; padding-right: 18px; }
+}

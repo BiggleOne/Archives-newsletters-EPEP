@@ -309,6 +309,12 @@
   font-size: 14px;
 }
 
+/* ── ENTRÉES (accessibilité clavier) ── */
+.nl-entry:focus-visible {
+  outline: 2px solid var(--epep-primary, #00928e);
+  outline-offset: 2px;
+}
+
 /* ── POPUP ── */
 #nl-popup-overlay {
   position: fixed;
@@ -497,6 +503,25 @@
   /* ── helpers ── */
   const $ = id => document.getElementById(id);
   const b = (n, d, t) => `<span class="nl-newsletter-badge">Newsletter N°${n} – ${d}</span>${t}`;
+
+  /* Sanitise le HTML du body popup : autorise uniquement les balises inoffensives */
+  const ALLOWED_TAGS = new Set(['p','h3','ul','ol','li','em','strong','br','hr','span','a']);
+  function sanitizeHTML(html){
+    const tpl = document.createElement('template');
+    tpl.innerHTML = html;
+    tpl.content.querySelectorAll('*').forEach(el => {
+      if (!ALLOWED_TAGS.has(el.tagName.toLowerCase())) { el.replaceWith(...el.childNodes); return; }
+      [...el.attributes].forEach(attr => {
+        if (el.tagName === 'A' && attr.name === 'href') return;
+        el.removeAttribute(attr.name);
+      });
+      if (el.tagName === 'A') {
+        el.setAttribute('rel', 'noopener noreferrer');
+        el.setAttribute('target', '_blank');
+      }
+    });
+    return tpl.innerHTML;
+  }
   window._NL_BADGE = b;
 
   const RMAP = {
@@ -523,7 +548,7 @@
       groups[cat].forEach(item => {
         if (lastNum && item.num !== lastNum) html += '<hr class="nl-divider">';
         const searchData = (item.title + ' ' + (item.body||'').replace(/<[^>]*>/g,' ')).toLowerCase();
-        html += `<article class="nl-entry" data-id="${item.id}" data-search="${searchData.replace(/"/g,'&quot;')}">
+        html += `<article class="nl-entry" role="button" tabindex="0" data-id="${item.id}" data-search="${searchData.replace(/"/g,'&quot;')}">
           <div class="nl-entry-top">
             <div class="nl-entry-title">${item.title}</div>
             <div class="nl-entry-arrow">→</div>
@@ -540,10 +565,12 @@
     });
 
     document.querySelectorAll('.nl-entry').forEach(el => {
-      el.addEventListener('click', () => {
+      const open = () => {
         const item = (window.NL_ITEMS || []).find(i => i.id === el.dataset.id);
         if (item) openPopup(item);
-      });
+      };
+      el.addEventListener('click', open);
+      el.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); } });
     });
   }
 
@@ -568,7 +595,7 @@
     $('nl-popup-rubrique').textContent = RMAP[item.cat];
     $('nl-popup-rubrique').style.color = CMAP[item.cat];
     $('nl-popup-title').textContent = item.title;
-    $('nl-popup-body').innerHTML = item.body || '';
+    $('nl-popup-body').innerHTML = sanitizeHTML(item.body || '');
     $('nl-popup-overlay').classList.add('open');
     document.body.style.overflow = 'hidden';
   }
@@ -590,18 +617,24 @@
     $('nl-highlight').style.display = 'flex';
   }
 
-  /* ── init (attend les données du widget 02) ── */
+  /* ── init ── */
   function init(){
-    if (window.NL_ITEMS && window.NL_ITEMS.length) {
-      render(window.NL_ITEMS);
-      setupHighlight();
-    } else {
-      // réessaie toutes les 80ms jusqu'à ce que les données soient là
-      setTimeout(init, 80);
-    }
+    render(window.NL_ITEMS);
+    setupHighlight();
   }
 
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
-  else init();
+  /* Accepte les deux modes : widget 02 qui pose NL_ITEMS directement (polling)
+     ou un script externe qui dispatch 'nl:items-ready' */
+  let _initDone = false;
+  function tryInit(){
+    if (_initDone || !(window.NL_ITEMS && window.NL_ITEMS.length)) return;
+    _initDone = true;
+    clearInterval(_poll);
+    init();
+  }
+  document.addEventListener('nl:items-ready', tryInit, { once: true });
+  const _poll = setInterval(tryInit, 80);
+  setTimeout(() => clearInterval(_poll), 15000);
+  if (document.readyState !== 'loading') tryInit();
 })();
 </script>
